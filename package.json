@@ -1,6 +1,6 @@
 {
   "name": "cs-stellar-wallet",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "repository": "https://github.com/CoinSpace/cs-stellar-wallet",
   "description": "",
   "main": "index.js",
