@@ -5,6 +5,7 @@ var Wallet = require('../');
 var fixtures = require('./wallet');
 // eslint-disable-next-line max-len
 var RANDOM_SEED = '2b48a48a752f6c49772bf97205660411cd2163fe6ce2de19537e9c94d3648c85c0d7f405660c20253115aaf1799b1c41cdd62b4cfbb6845bc9475495fc64b874';
+var RANDOM_SEED_PUB_KEY = 'GBBWU2HVQX52SZBQM2EIE5XGKJV2MXUSSHC4PX6C6MWJQAD6HECG5SKY';
 
 describe('Stellar Wallet', function() {
   var readOnlyWallet;
@@ -55,38 +56,36 @@ describe('Stellar Wallet', function() {
     it('works', function() {
       var wallet = new Wallet({
         networkName: 'stellar',
-        publicKey: readOnlyWallet.account.keypair.publicKey()
+        publicKey: RANDOM_SEED_PUB_KEY
       });
       assert.equal(wallet.isLocked, true);
-      wallet.unlock(readOnlyWallet.account.keypair.secret());
-      assert.equal(wallet.account.keypair.secret(), readOnlyWallet.account.keypair.secret());
+      wallet.unlock(RANDOM_SEED);
+      assert.ok(wallet.account.keypair.secret());
       assert.equal(wallet.isLocked, false);
     });
   });
 
-  describe('dumpKeys', function() {
+  describe('publicKey', function() {
     it('works', function() {
       var wallet = new Wallet({
         networkName: 'stellar',
         seed: RANDOM_SEED
       });
-      var keys = wallet.dumpKeys();
-      assert.ok(keys);
-      assert.ok(keys.private);
-      assert.ok(keys.public);
+      var publicKey = wallet.publicKey();
+      assert.ok(publicKey);
     });
 
-    it('dumped keys are valid', function() {
+    it('key is valid', function() {
       var wallet = new Wallet({
         networkName: 'stellar',
         seed: RANDOM_SEED
       });
-      var keys = wallet.dumpKeys();
+      var publicKey = wallet.publicKey();
       var secondWalet = new Wallet({
         networkName: 'stellar',
-        publicKey: keys.public
+        publicKey: publicKey
       });
-      secondWalet.unlock(keys.private);
+      secondWalet.unlock(RANDOM_SEED);
       assert.equal(wallet.account.keypair.secret(), secondWalet.account.keypair.secret());
       assert.equal(wallet.addressString, secondWalet.addressString);
     });
