@@ -1,4 +1,4 @@
-CS-Stellar-Wallet [![Build Status](https://travis-ci.org/CoinSpace/cs-stellar-wallet.svg)](https://travis-ci.org/CoinSpace/cs-stellar-wallet)
+CS-Stellar-Wallet
 =========
 
 Stellar Wallet for [Coin](https://github.com/CoinSpace/CoinSpace) app.
