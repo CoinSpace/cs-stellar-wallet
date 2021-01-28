@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint lib test",
+    "lint": "eslint lib test index.js",
     "test": "mocha --reporter spec"
   },
   "author": "Nikita Verkhovin <vernik91@gmail.com>",
@@ -17,7 +17,19 @@
     "stellar-base": "^3.0.4"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "@coinspace/eslint-config": "^1.0.1",
+    "eslint": "^7.18.0",
     "mocha": "^7.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@coinspace"
+    ],
+    "env": {
+      "mocha": true,
+      "node": true,
+      "browser": true,
+      "commonjs": true
+    }
   }
 }
