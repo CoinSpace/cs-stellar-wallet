@@ -17,13 +17,13 @@
     "stellar-base": "^3.0.4"
   },
   "devDependencies": {
-    "@coinspace/eslint-config": "^1.0.1",
-    "eslint": "^7.18.0",
+    "eslint": "^7.23.0",
+    "eslint-config-coinspace": "^1.1.3",
     "mocha": "^7.0.0"
   },
   "eslintConfig": {
     "extends": [
-      "@coinspace"
+      "coinspace"
     ],
     "env": {
       "mocha": true,
