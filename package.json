@@ -2,14 +2,14 @@
   "name": "@coinspace/cs-stellar-wallet",
   "version": "1.3.4",
   "repository": "https://github.com/CoinSpace/cs-stellar-wallet",
-  "description": "",
+  "description": "Stellar Wallet for Coin app",
+  "author": "Coin Crypto Wallet <support@coin.space> (https://coin.space/)",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "lint": "eslint lib test index.js",
     "test": "mocha --reporter spec"
   },
-  "author": "Nikita Verkhovin <vernik91@gmail.com>",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.19.0",
     "axios-retry": "^3.1.2",
