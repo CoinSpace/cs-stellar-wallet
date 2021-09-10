@@ -1,5 +1,8 @@
 {
-  "networkName": "stellar",
+  "crypto": {
+    "platform": "stellar",
+    "decimals": 7
+  },
   "balance": "0",
   "fee": "0.00001",
   "secret": "SDDUQVLWLA543QQEXJKTIQAWVDO62BKCNSXRUGJLWRKLO23E6F44QAEC",
