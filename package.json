@@ -1,6 +1,6 @@
 {
   "name": "@coinspace/cs-stellar-wallet",
-  "version": "1.3.4",
+  "version": "1.4.0",
   "repository": "https://github.com/CoinSpace/cs-stellar-wallet",
   "description": "Stellar Wallet for Coin app",
   "author": "Coin Crypto Wallet <support@coin.space> (https://coin.space/)",
