@@ -556,6 +556,7 @@ describe('Stellar Wallet', () => {
         }, {
           name: 'InvalidMemoError',
           message: 'Invalid Memo: "1234567890abcdef1234567890abcdef"',
+          meta: 'memo',
         });
       });
     });
