@@ -534,6 +534,10 @@ describe('Stellar Wallet', () => {
         await wallet.load();
       });
 
+      it('should support meta', () => {
+        assert.ok(wallet.isMetaSupported);
+      });
+
       it('empty meta is valid', async () => {
         assert.ok(await wallet.validateMeta({
           address: SECOND_ADDRESS,
@@ -543,7 +547,9 @@ describe('Stellar Wallet', () => {
       it('valid memo', async () => {
         assert.ok(await wallet.validateMeta({
           address: SECOND_ADDRESS,
-          memo: '12345',
+          memo: {
+            memo: '12345',
+          },
         }));
       });
 
@@ -551,7 +557,9 @@ describe('Stellar Wallet', () => {
         await assert.rejects(async () => {
           await wallet.validateMeta({
             address: SECOND_ADDRESS,
-            memo: '1234567890abcdef1234567890abcdef',
+            meta: {
+              memo: '1234567890abcdef1234567890abcdef',
+            },
           });
         }, {
           name: 'InvalidMemoError',
@@ -690,6 +698,13 @@ describe('Stellar Wallet', () => {
   });
 
   describe('createImport', () => {
+    it('should support import', () => {
+      const wallet = new Wallet({
+        ...defaultOptions,
+      });
+      assert.ok(wallet.isImportSupported);
+    });
+
     it('should create import transaction', async () => {
       sinon.stub(defaultOptions.account, 'request')
         .withArgs({
