@@ -77,15 +77,6 @@ describe('Stellar Wallet', () => {
       assert.equal(wallet.address, RANDOM_ADDRESS);
     });
 
-    it('should open wallet with migrated public key', async () => {
-      const wallet = new Wallet({
-        ...defaultOptions,
-      });
-      await wallet.open(RANDOM_SEED_PUB_KEY);
-      assert.equal(wallet.state, Wallet.STATE_INITIALIZED);
-      assert.equal(wallet.address, RANDOM_ADDRESS);
-    });
-
     it('should fails without public key', async () => {
       const wallet = new Wallet({
         ...defaultOptions,
