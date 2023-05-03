@@ -654,10 +654,11 @@ describe('Stellar Wallet', () => {
       await wallet.open({ data: RANDOM_SEED_PUB_KEY });
       await wallet.load();
       const estimation = await wallet.estimateImport({
-        secret: SECOND_SECRET,
+        privateKey: SECOND_SECRET,
       });
       assert.equal(estimation.address, SECOND_ADDRESS);
-      assert.equal(estimation.amount.value, 1004989991975n);
+      assert.equal(estimation.amount.value, 1004990000000n);
+      assert.equal(estimation.fee.value, 8025n);
     });
 
     it('throw error on invalid private key', async () => {
@@ -666,7 +667,7 @@ describe('Stellar Wallet', () => {
       });
       await wallet.open({ data: RANDOM_SEED_PUB_KEY });
       await assert.rejects(async () => {
-        await wallet.estimateImport({ secret: '123' });
+        await wallet.estimateImport({ privateKey: '123' });
       }, {
         name: 'InvalidSecretError',
         message: 'Invalid Secret',
@@ -679,7 +680,7 @@ describe('Stellar Wallet', () => {
       });
       await wallet.open({ data: RANDOM_SEED_PUB_KEY });
       await assert.rejects(async () => {
-        await wallet.estimateImport({ secret: RANDOM_SECRET });
+        await wallet.estimateImport({ privateKey: RANDOM_SECRET });
       },
       {
         name: 'InvalidSecretError',
@@ -743,7 +744,7 @@ describe('Stellar Wallet', () => {
       await wallet.load();
 
       await wallet.createImport({
-        secret: SECOND_SECRET,
+        privateKey: SECOND_SECRET,
       });
       assert.equal(wallet.balance.value, 48_9991975n);
     });
