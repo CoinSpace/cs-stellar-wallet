@@ -129,12 +129,6 @@ describe('Stellar Wallet', () => {
     });
   });
 
-  describe('reload', () => {
-    it.skip('should reload wallet', () => {
-      // TODO add test for reload method
-    });
-  });
-
   describe('getPublicKey', () => {
     it('should export public key', async () => {
       const wallet = new Wallet({
