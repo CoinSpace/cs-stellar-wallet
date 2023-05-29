@@ -1,4 +1,4 @@
 export {
   default,
   InvalidMemoError,
-} from './lib/wallet.js';
+} from './lib/StellarWallet.js';

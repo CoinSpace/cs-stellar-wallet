@@ -12,7 +12,7 @@
     "test": "mocha --reporter spec"
   },
   "dependencies": {
-    "cs-common": "file:../CoinSpaceV6/cs-common",
+    "@coinspace/cs-common": "^1.0.0",
     "stellar-base": "^8.0.0"
   },
   "devDependencies": {
@@ -26,13 +26,23 @@
       "coinspace"
     ],
     "env": {
-      "node": true,
-      "browser": true,
-      "mocha": true
+      "browser": true
     },
     "parserOptions": {
       "requireConfigFile": false,
       "sourceType": "module"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.test.js",
+          "test/*"
+        ],
+        "env": {
+          "node": true,
+          "mocha": true
+        }
+      }
+    ]
   }
 }
