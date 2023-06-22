@@ -25,7 +25,6 @@ const defaultOptions = {
   account: {
     request(...args) { console.log(args); },
   },
-  apiWeb: 'web',
   apiNode: 'node',
   storage: { get() {}, set() {}, save() {} },
 };
