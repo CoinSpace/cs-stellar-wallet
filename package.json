@@ -7,13 +7,19 @@
   "license": "MIT",
   "type": "module",
   "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./errors": "./lib/errors.js"
+  },
   "scripts": {
     "lint": "eslint lib test index.js",
     "test": "mocha --reporter spec"
   },
   "dependencies": {
-    "@coinspace/cs-common": "^1.0.7",
-    "stellar-base": "^8.0.0"
+    "stellar-base": "^9.0.0"
+  },
+  "peerDependencies": {
+    "@coinspace/cs-common": "^1.0.8"
   },
   "devDependencies": {
     "eslint": "^8.0.0",
