@@ -649,9 +649,7 @@ describe('Stellar Wallet', () => {
       const estimation = await wallet.estimateImport({
         privateKey: SECOND_SECRET,
       });
-      assert.equal(estimation.address, SECOND_ADDRESS);
-      assert.equal(estimation.amount.value, 1004990000000n);
-      assert.equal(estimation.fee.value, 8025n);
+      assert.equal(estimation.value, 1004989991975n);
     });
 
     it('throw error on invalid private key', async () => {
