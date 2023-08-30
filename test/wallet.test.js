@@ -1,5 +1,5 @@
 import { Amount } from '@coinspace/cs-common';
-import Wallet from '../index.js';
+import Wallet from '@coinspace/cs-stellar-wallet';
 import assert from 'assert/strict';
 import sinon from 'sinon';
 
@@ -386,8 +386,9 @@ describe('Stellar Wallet', () => {
             amount: new Amount(123n, wallet.crypto.decimals),
           });
         }, {
-          name: 'InactiveAccountError',
-          message: 'Inactive account',
+          name: 'SmallAmountError',
+          message: 'Small amount',
+          amount: new Amount(1n, wallet.crypto.decimals),
         });
       });
 
