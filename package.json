@@ -19,7 +19,7 @@
     "stellar-base": "^9.0.0"
   },
   "peerDependencies": {
-    "@coinspace/cs-common": "^1.0.18"
+    "@coinspace/cs-common": "^1.0.21"
   },
   "devDependencies": {
     "eslint": "^8.0.0",
