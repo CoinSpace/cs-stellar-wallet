@@ -373,6 +373,14 @@ describe('Stellar Wallet', () => {
             balance: 0,
             sequence: 1,
             isActive: false,
+          }).withArgs({
+            seed: 'device',
+            method: 'GET',
+            url: 'api/v1/ledger',
+            baseURL: 'node',
+          }).resolves({
+            baseFee: 0.0008025,
+            baseReserve: 0.5,
           });
         const wallet = new Wallet({
           ...defaultOptions,
@@ -386,9 +394,9 @@ describe('Stellar Wallet', () => {
             amount: new Amount(123n, wallet.crypto.decimals),
           });
         }, {
-          name: 'SmallAmountError',
-          message: 'Small amount',
-          amount: new Amount(1n, wallet.crypto.decimals),
+          name: 'BigAmountError',
+          message: 'Big amount',
+          amount: new Amount(0n, wallet.crypto.decimals),
         });
       });
 
