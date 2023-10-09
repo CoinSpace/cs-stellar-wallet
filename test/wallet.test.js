@@ -700,6 +700,52 @@ describe('Stellar Wallet', () => {
         message: 'Private key equal wallet private key',
       });
     });
+
+    it('throw error on small amount private key', async () => {
+      sinon.stub(defaultOptions.account, 'request')
+        .withArgs({
+          seed: 'device',
+          method: 'GET',
+          url: `api/v1/account/${RANDOM_ADDRESS}`,
+          baseURL: 'node',
+        }).resolves({
+          balance: 12.345,
+          sequence: 1,
+          isActive: true,
+        })
+        .withArgs({
+          seed: 'device',
+          method: 'GET',
+          url: `api/v1/account/${SECOND_ADDRESS}`,
+          baseURL: 'node',
+        }).resolves({
+          balance: 1.0008025,
+          sequence: 1,
+          isActive: true,
+        })
+        .withArgs({
+          seed: 'device',
+          method: 'GET',
+          url: 'api/v1/ledger',
+          baseURL: 'node',
+        }).resolves({
+          baseFee: 0.0008025,
+          baseReserve: 0.5,
+        });
+      const wallet = new Wallet({
+        ...defaultOptions,
+      });
+      await wallet.open({ data: RANDOM_SEED_PUB_KEY });
+      await wallet.load();
+      await assert.rejects(async () => {
+        await wallet.estimateImport({ privateKey: SECOND_SECRET });
+      },
+      {
+        name: 'SmallAmountError',
+        message: 'Small amount',
+        amount: new Amount(8026n, wallet.crypto.decimals),
+      });
+    });
   });
 
   describe('createImport', () => {
