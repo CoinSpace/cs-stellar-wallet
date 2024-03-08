@@ -22,9 +22,7 @@ const defaultOptions = {
   platform: stellarAtStellar,
   cache: { get() {}, set() {} },
   settings: { get() {}, set() {} },
-  account: {
-    request(...args) { console.log(args); },
-  },
+  request(...args) { console.log(args); },
   apiNode: 'node',
   storage: { get() {}, set() {}, save() {} },
 };
@@ -103,12 +101,13 @@ describe('Stellar Wallet', () => {
 
   describe('load', () => {
     it('should load wallet', async () => {
-      sinon.stub(defaultOptions.account, 'request')
+      sinon.stub(defaultOptions, 'request')
         .withArgs({
           seed: 'device',
           method: 'GET',
           url: `api/v1/account/${RANDOM_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 12.345,
           sequence: 1,
@@ -128,11 +127,11 @@ describe('Stellar Wallet', () => {
     });
 
     it('should set STATE_ERROR on error', async () => {
+      sinon.stub(defaultOptions, 'request');
       const wallet = new Wallet({
         ...defaultOptions,
       });
       await wallet.open({ data: RANDOM_SEED_PUB_KEY });
-      sinon.stub(defaultOptions.account, 'request');
       await assert.rejects(async () => {
         await wallet.load();
       });
@@ -180,12 +179,13 @@ describe('Stellar Wallet', () => {
 
   describe('estimateMaxAmount', () => {
     it('should correct estimate max amount', async () => {
-      sinon.stub(defaultOptions.account, 'request')
+      sinon.stub(defaultOptions, 'request')
         .withArgs({
           seed: 'device',
           method: 'GET',
           url: `api/v1/account/${RANDOM_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 12.345,
           sequence: 1,
@@ -195,6 +195,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: 'api/v1/ledger',
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           baseFee: 0.0008025,
           baseReserve: 0.5,
@@ -210,12 +211,13 @@ describe('Stellar Wallet', () => {
     });
 
     it('should estimate max amount to be 0', async () => {
-      sinon.stub(defaultOptions.account, 'request')
+      sinon.stub(defaultOptions, 'request')
         .withArgs({
           seed: 'device',
           method: 'GET',
           url: `api/v1/account/${RANDOM_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 1,
           sequence: 1,
@@ -225,6 +227,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: 'api/v1/ledger',
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           baseFee: 0.0008025,
           baseReserve: 0.5,
@@ -241,12 +244,13 @@ describe('Stellar Wallet', () => {
 
   describe('estimateTransactionFee', () => {
     it('should estimate transaction fee', async () => {
-      sinon.stub(defaultOptions.account, 'request')
+      sinon.stub(defaultOptions, 'request')
         .withArgs({
           seed: 'device',
           method: 'GET',
           url: `api/v1/account/${RANDOM_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 10,
           sequence: 1,
@@ -256,6 +260,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: 'api/v1/ledger',
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           baseFee: 0.0008025,
           baseReserve: 0.5,
@@ -277,12 +282,13 @@ describe('Stellar Wallet', () => {
     describe('validateAddress', () => {
       let wallet;
       beforeEach(async () => {
-        sinon.stub(defaultOptions.account, 'request')
+        sinon.stub(defaultOptions, 'request')
           .withArgs({
             seed: 'device',
             method: 'GET',
             url: `api/v1/account/${RANDOM_ADDRESS}`,
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             balance: 12.345,
             sequence: 1,
@@ -320,12 +326,13 @@ describe('Stellar Wallet', () => {
 
     describe('validateAmount', () => {
       it('should be valid amount', async () => {
-        sinon.stub(defaultOptions.account, 'request')
+        sinon.stub(defaultOptions, 'request')
           .withArgs({
             seed: 'device',
             method: 'GET',
             url: `api/v1/account/${RANDOM_ADDRESS}`,
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             balance: 20,
             sequence: 1,
@@ -335,6 +342,7 @@ describe('Stellar Wallet', () => {
             method: 'GET',
             url: `api/v1/account/${SECOND_ADDRESS}`,
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             balance: 10,
             sequence: 1,
@@ -345,6 +353,7 @@ describe('Stellar Wallet', () => {
             method: 'GET',
             url: 'api/v1/ledger',
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             baseFee: 0.0008025,
             baseReserve: 0.5,
@@ -363,12 +372,13 @@ describe('Stellar Wallet', () => {
       });
 
       it('throw on inactive account', async () => {
-        sinon.stub(defaultOptions.account, 'request')
+        sinon.stub(defaultOptions, 'request')
           .withArgs({
             seed: 'device',
             method: 'GET',
             url: `api/v1/account/${RANDOM_ADDRESS}`,
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             balance: 0,
             sequence: 1,
@@ -378,6 +388,7 @@ describe('Stellar Wallet', () => {
             method: 'GET',
             url: 'api/v1/ledger',
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             baseFee: 0.0008025,
             baseReserve: 0.5,
@@ -401,12 +412,13 @@ describe('Stellar Wallet', () => {
       });
 
       it('throw on small amount', async () => {
-        sinon.stub(defaultOptions.account, 'request')
+        sinon.stub(defaultOptions, 'request')
           .withArgs({
             seed: 'device',
             method: 'GET',
             url: `api/v1/account/${RANDOM_ADDRESS}`,
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             balance: 12.345,
             sequence: 1,
@@ -431,12 +443,13 @@ describe('Stellar Wallet', () => {
       });
 
       it('throw on big amount', async () => {
-        sinon.stub(defaultOptions.account, 'request')
+        sinon.stub(defaultOptions, 'request')
           .withArgs({
             seed: 'device',
             method: 'GET',
             url: `api/v1/account/${RANDOM_ADDRESS}`,
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             balance: 12.345,
             sequence: 1,
@@ -446,6 +459,7 @@ describe('Stellar Wallet', () => {
             method: 'GET',
             url: 'api/v1/ledger',
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             baseFee: 0.0008025,
             baseReserve: 0.5,
@@ -469,12 +483,13 @@ describe('Stellar Wallet', () => {
       });
 
       it('throw on amount less then min reserve', async () => {
-        sinon.stub(defaultOptions.account, 'request')
+        sinon.stub(defaultOptions, 'request')
           .withArgs({
             seed: 'device',
             method: 'GET',
             url: `api/v1/account/${RANDOM_ADDRESS}`,
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             balance: 12.345,
             sequence: 1,
@@ -485,6 +500,7 @@ describe('Stellar Wallet', () => {
             method: 'GET',
             url: `api/v1/account/${SECOND_ADDRESS}`,
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             balance: 0,
             sequence: 1,
@@ -495,6 +511,7 @@ describe('Stellar Wallet', () => {
             method: 'GET',
             url: 'api/v1/ledger',
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             baseFee: 0.0008025,
             baseReserve: 0.5,
@@ -521,12 +538,13 @@ describe('Stellar Wallet', () => {
     describe('validateMeta', () => {
       let wallet;
       beforeEach(async () => {
-        sinon.stub(defaultOptions.account, 'request')
+        sinon.stub(defaultOptions, 'request')
           .withArgs({
             seed: 'device',
             method: 'GET',
             url: `api/v1/account/${RANDOM_ADDRESS}`,
             baseURL: 'node',
+            headers: sinon.match.any,
           }).resolves({
             balance: 12.345,
             sequence: 1,
@@ -577,12 +595,13 @@ describe('Stellar Wallet', () => {
 
   describe('createTransaction', () => {
     it('should create valid transaction', async () => {
-      sinon.stub(defaultOptions.account, 'request')
+      sinon.stub(defaultOptions, 'request')
         .withArgs({
           seed: 'device',
           method: 'GET',
           url: `api/v1/account/${RANDOM_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 20,
           sequence: 1,
@@ -593,6 +612,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: `api/v1/account/${SECOND_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 10,
           sequence: 1,
@@ -603,6 +623,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: 'api/v1/ledger',
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           baseFee: 0.0008025,
           baseReserve: 0.5,
@@ -613,6 +634,7 @@ describe('Stellar Wallet', () => {
           url: 'api/v1/tx/send',
           data: sinon.match.any,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           txId: '123456',
         });
@@ -633,12 +655,13 @@ describe('Stellar Wallet', () => {
 
   describe('estimateImport', () => {
     it('works', async () => {
-      sinon.stub(defaultOptions.account, 'request')
+      sinon.stub(defaultOptions, 'request')
         .withArgs({
           seed: 'device',
           method: 'GET',
           url: `api/v1/account/${RANDOM_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 12.345,
           sequence: 1,
@@ -649,6 +672,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: `api/v1/account/${SECOND_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 100500,
           sequence: 1,
@@ -659,6 +683,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: 'api/v1/ledger',
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           baseFee: 0.0008025,
           baseReserve: 0.5,
@@ -702,12 +727,13 @@ describe('Stellar Wallet', () => {
     });
 
     it('throw error on small amount private key', async () => {
-      sinon.stub(defaultOptions.account, 'request')
+      sinon.stub(defaultOptions, 'request')
         .withArgs({
           seed: 'device',
           method: 'GET',
           url: `api/v1/account/${RANDOM_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 12.345,
           sequence: 1,
@@ -718,6 +744,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: `api/v1/account/${SECOND_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 1.0008025,
           sequence: 1,
@@ -728,6 +755,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: 'api/v1/ledger',
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           baseFee: 0.0008025,
           baseReserve: 0.5,
@@ -757,12 +785,13 @@ describe('Stellar Wallet', () => {
     });
 
     it('should create import transaction', async () => {
-      sinon.stub(defaultOptions.account, 'request')
+      sinon.stub(defaultOptions, 'request')
         .withArgs({
           seed: 'device',
           method: 'GET',
           url: `api/v1/account/${RANDOM_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 20,
           sequence: 1,
@@ -773,6 +802,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: `api/v1/account/${SECOND_ADDRESS}`,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           balance: 30,
           sequence: 1,
@@ -783,6 +813,7 @@ describe('Stellar Wallet', () => {
           method: 'GET',
           url: 'api/v1/ledger',
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           baseFee: 0.0008025,
           baseReserve: 0.5,
@@ -793,6 +824,7 @@ describe('Stellar Wallet', () => {
           url: 'api/v1/tx/send',
           data: sinon.match.any,
           baseURL: 'node',
+          headers: sinon.match.any,
         }).resolves({
           txId: '123456',
         });
