@@ -1,7 +1,10 @@
 import { Amount } from '@coinspace/cs-common';
 import Wallet from '@coinspace/cs-stellar-wallet';
-import assert from 'assert/strict';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
 import sinon from 'sinon';
+
+const TXS = JSON.parse(await fs.readFile('./test/fixtures/txs.json', 'utf8'));
 
 // eslint-disable-next-line max-len
 const RANDOM_SEED = Buffer.from('2b48a48a752f6c49772bf97205660411cd2163fe6ce2de19537e9c94d3648c85c0d7f405660c20253115aaf1799b1c41cdd62b4cfbb6845bc9475495fc64b874', 'hex');
@@ -839,6 +842,44 @@ describe('Stellar Wallet', () => {
       });
       assert.equal(wallet.balance.value, 48_9991975n);
       assert.equal(id, '123456');
+    });
+  });
+
+  describe('loadTransactions', () => {
+    it('should load transactions (coin)', async () => {
+      sinon.stub(defaultOptions, 'request')
+        .withArgs({
+          seed: 'device',
+          method: 'GET',
+          url: `api/v1/account/${RANDOM_ADDRESS}`,
+          baseURL: 'node',
+          headers: sinon.match.any,
+        }).resolves({
+          balance: 12.345,
+          sequence: 1,
+          isActive: true,
+        })
+        .withArgs({
+          seed: 'device',
+          method: 'GET',
+          url: `api/v1/account/${RANDOM_ADDRESS}/txs`,
+          baseURL: 'node',
+          headers: sinon.match.any,
+          params: {
+            cursor: sinon.match.undefined,
+          },
+        }).resolves(TXS);
+
+      const wallet = new Wallet({
+        ...defaultOptions,
+      });
+      await wallet.open({ data: RANDOM_SEED_PUB_KEY });
+      await wallet.load();
+
+      const res = await wallet.loadTransactions();
+      assert.equal(res.hasMore, true);
+      assert.equal(res.transactions.length, 5);
+      assert.equal(res.cursor, '185916365306208256');
     });
   });
 });
