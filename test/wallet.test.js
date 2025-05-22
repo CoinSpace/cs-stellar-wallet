@@ -1,4 +1,5 @@
 import { Amount } from '@coinspace/cs-common';
+import { Buffer } from 'node:buffer';
 import Wallet from '@coinspace/cs-stellar-wallet';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';

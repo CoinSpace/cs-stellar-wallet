@@ -12,7 +12,7 @@
     "./errors": "./lib/errors.js"
   },
   "scripts": {
-    "lint": "eslint . --ext .js --report-unused-disable-directives",
+    "lint": "eslint --report-unused-disable-directives .",
     "test": "mocha --reporter spec"
   },
   "dependencies": {
@@ -22,33 +22,9 @@
     "@coinspace/cs-common": "^1.1.2"
   },
   "devDependencies": {
-    "eslint": "^8.0.0",
-    "eslint-config-coinspace": "^2.0.0",
-    "mocha": "^10.0.0",
-    "sinon": "^17.0.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "coinspace"
-    ],
-    "env": {
-      "browser": true
-    },
-    "parserOptions": {
-      "requireConfigFile": false,
-      "sourceType": "module"
-    },
-    "overrides": [
-      {
-        "files": [
-          "*.test.js",
-          "test/*"
-        ],
-        "env": {
-          "node": true,
-          "mocha": true
-        }
-      }
-    ]
+    "eslint": "^9.27.0",
+    "eslint-config-coinspace": "^3.0.1",
+    "mocha": "^11.4.0",
+    "sinon": "^20.0.0"
   }
 }
